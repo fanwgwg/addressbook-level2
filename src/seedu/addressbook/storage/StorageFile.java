@@ -42,6 +42,15 @@ public class StorageFile {
             super(message);
         }
     }
+    
+    /**
+     * Signals that the storage file does not exist.
+     */
+    public static class FileNotExistException extends Exception {
+        public FileNotExistException(String message) {
+            super(message);
+        }
+    }
 
     private final JAXBContext jaxbContext;
 
@@ -68,6 +77,17 @@ public class StorageFile {
         if (!isValidPath(path)) {
             throw new InvalidStorageFilePathException("Storage file should end with '.txt'");
         }
+    }
+    
+
+    /**
+     * Check whether the storage file exists at the path
+     * @throws FileNotExistException
+     */
+    public void checkFileExist() throws FileNotExistException{
+    	if(!new File(path.toString()).exists()) {
+    		throw new FileNotExistException("Storage file doesn't exist");
+    	}
     }
 
     /**
@@ -111,7 +131,7 @@ public class StorageFile {
     public AddressBook load() throws StorageOperationException {
         try (final Reader fileReader =
                      new BufferedReader(new FileReader(path.toFile()))) {
-
+        	
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             final AdaptedAddressBook loaded = (AdaptedAddressBook) unmarshaller.unmarshal(fileReader);
             // manual check for missing elements
