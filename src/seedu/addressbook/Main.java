@@ -79,6 +79,12 @@ public class Main {
     private void runCommandLoopUntilExitCommand() {
         Command command;
         do {
+        	try {
+				this.storage.checkFileExist();
+			} catch (FileNotExistException e) {
+				ui.showToUser(e.getMessage());
+				exit();
+			}
             String userCommandText = ui.getUserCommand();
             command = new Parser().parseCommand(userCommandText);
             CommandResult result = executeCommand(command);
