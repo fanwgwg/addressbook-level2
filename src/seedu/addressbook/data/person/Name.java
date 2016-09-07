@@ -60,31 +60,22 @@ public class Name {
 			return true;
 		}
 		
-		return containSameElements(this, other);
+		if(isSubset(this, other)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
 	 * @param name
 	 * @param other
-	 * @return true if both names are the same, just that they are in different cases
+	 * @return true if one name is subset of another name
 	 */
-	private boolean areDifferentCases(Name name, Name other) {
-		return other.toString().toLowerCase().equals(this.toString().toLowerCase());
-	}
-	
-	/**
-	 * @param name
-	 * @param other
-	 * @return true if both names are in different orders or different cases
-	 */
-    private boolean containSameElements(Name name, Name other) {
-    	List<String> wordsInThisNameAsList = this.getWordsInName();
+	private boolean isSubset(Name name, Name other) {
+		List<String> wordsInThisNameAsList = this.getWordsInName();
 		List<String> wordsInOtherNameAsList = other.getWordsInName();
-		
-		if(wordsInOtherNameAsList.size() != wordsInThisNameAsList.size()) {
-			return false;
-		}
-		
+
 		TreeSet<String> wordsInThisNameAsSet = new TreeSet<String>();
 		TreeSet<String> wordsInOtherNameAsSet = new TreeSet<String>();
 		
@@ -95,7 +86,31 @@ public class Name {
 		for(String word : wordsInOtherNameAsList) {
 			wordsInOtherNameAsSet.add(word.toLowerCase());
 		}
-		return wordsInOtherNameAsSet.equals(wordsInOtherNameAsSet);
+		
+		if (wordsInThisNameAsSet.size() < wordsInOtherNameAsSet.size()) {
+			for (String word : wordsInThisNameAsSet) {
+				if (!wordsInOtherNameAsSet.contains(word)) {
+					return false;
+				}
+			}
+		} else {
+			for (String word : wordsInOtherNameAsSet) {
+				if (!wordsInThisNameAsSet.contains(word)) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param name
+	 * @param other
+	 * @return true if both names are the same, just that they are in different cases
+	 */
+	private boolean areDifferentCases(Name name, Name other) {
+		return other.toString().toLowerCase().equals(this.toString().toLowerCase());
 	}
 
 	@Override

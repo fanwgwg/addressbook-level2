@@ -12,12 +12,14 @@ public class NameTest {
 	private Name name1;
 	private Name name2;
 	private Name name3;
+	private Name name4;
 	
 	@Before
 	public void initialize() throws IllegalValueException {
 		name1 = new Name("John K Smith");
 		name2 = new Name("john k smith");
 		name3 = new Name("John Smith K");
+		name4 = new Name("K smith");
 	}
 	
 	@Test
@@ -37,6 +39,11 @@ public class NameTest {
 	@Test
 	public void testDifferentOrders() {
 		assertTrue("Two names are in differnt orders", name1.isSimilar(name3));
+	}
+	
+	@Test
+	public void testSubset() {
+		assertTrue("One name is subset of another", name1.isSimilar(name4));
 	}
 
 }
