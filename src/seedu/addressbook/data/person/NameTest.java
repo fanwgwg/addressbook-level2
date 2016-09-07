@@ -10,10 +10,13 @@ import seedu.addressbook.data.exception.IllegalValueException;
 public class NameTest {
 	
 	private Name name1;
+	private Name name2;
+	
 	
 	@Before
 	public void initialize() throws IllegalValueException {
 		name1 = new Name("John K Smith");
+		name2 = new Name("john k smith");
 	}
 	
 	@Test
@@ -22,7 +25,12 @@ public class NameTest {
 	
 	@Test
 	public void testOtherIsNull() {
-		assertFalse("Both are null", name1.isSimilar(null));
+		assertFalse("Other is null", name1.isSimilar(null));
+	}
+	
+	@Test
+	public void testDifferentCases() {
+		assertTrue("Two names are in different cases", name1.isSimilar(name2));
 	}
 
 }
