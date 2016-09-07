@@ -11,12 +11,13 @@ public class NameTest {
 	
 	private Name name1;
 	private Name name2;
-	
+	private Name name3;
 	
 	@Before
 	public void initialize() throws IllegalValueException {
 		name1 = new Name("John K Smith");
 		name2 = new Name("john k smith");
+		name3 = new Name("John Smith K");
 	}
 	
 	@Test
@@ -31,6 +32,11 @@ public class NameTest {
 	@Test
 	public void testDifferentCases() {
 		assertTrue("Two names are in different cases", name1.isSimilar(name2));
+	}
+	
+	@Test
+	public void testDifferentOrders() {
+		assertTrue("Two names are in differnt orders", name1.isSimilar(name3));
 	}
 
 }

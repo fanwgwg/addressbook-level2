@@ -4,6 +4,7 @@ import seedu.addressbook.data.exception.IllegalValueException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Represents a Person's name in the address book.
@@ -55,14 +56,49 @@ public class Name {
 			return false;
 		}
 		
-		if(other.toString().toLowerCase().equals(this.toString().toLowerCase())) {
+		if(areDifferentCases(this, other)) {
 			return true;
 		}
 		
-		return false;
+		return containSameElements(this, other);
 	}
 
-    @Override
+	/**
+	 * @param name
+	 * @param other
+	 * @return true if both names are the same, just that they are in different cases
+	 */
+	private boolean areDifferentCases(Name name, Name other) {
+		return other.toString().toLowerCase().equals(this.toString().toLowerCase());
+	}
+	
+	/**
+	 * @param name
+	 * @param other
+	 * @return true if both names are in different orders or different cases
+	 */
+    private boolean containSameElements(Name name, Name other) {
+    	List<String> wordsInThisNameAsList = this.getWordsInName();
+		List<String> wordsInOtherNameAsList = other.getWordsInName();
+		
+		if(wordsInOtherNameAsList.size() != wordsInThisNameAsList.size()) {
+			return false;
+		}
+		
+		TreeSet<String> wordsInThisNameAsSet = new TreeSet<String>();
+		TreeSet<String> wordsInOtherNameAsSet = new TreeSet<String>();
+		
+		for(String word : wordsInThisNameAsList) {
+			wordsInThisNameAsSet.add(word.toLowerCase());
+		}
+		
+		for(String word : wordsInOtherNameAsList) {
+			wordsInOtherNameAsSet.add(word.toLowerCase());
+		}
+		return wordsInOtherNameAsSet.equals(wordsInOtherNameAsSet);
+	}
+
+	@Override
     public String toString() {
         return fullName;
     }
