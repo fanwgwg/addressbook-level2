@@ -31,4 +31,14 @@ public class Tagging {
 	public Behaviour getBehaviour() {
 		return this.behaviour;
 	}
+	
+	public String toString() {
+	    String sign;
+	    if(this.behaviour.equals(Behaviour.ADD)) {
+	        sign = "+";
+	    } else {
+	        sign = "-";
+	    }
+	    return sign + " " + this.person.getName() + " " + "[" + getTag().tagName + "]";
+	}
 }
